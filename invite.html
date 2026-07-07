@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HAIRPIN 초대</title>
+<style>
+  body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:#fbfaf8; color:#1a1c22;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo",sans-serif; }
+  .card { text-align:center; padding:40px 24px; max-width:360px; }
+  h1 { font-size:34px; margin:0 0 4px; letter-spacing:1px; }
+  .tag { color:#8a6d3b; font-weight:600; margin-bottom:18px; }
+  p { color:#4b5057; line-height:1.5; margin:10px 0; font-size:15px; }
+  .code { font-size:34px; font-weight:800; letter-spacing:7px; color:#1a1c22;
+    margin:14px 0; padding:12px 0; border:1px dashed #d7d3cc; border-radius:14px; background:#fff; }
+  a.btn { display:block; margin:10px 0; padding:14px 22px; border-radius:12px;
+    border:1px solid #e5e7eb; background:#fff; color:#1a1c22; text-decoration:none; font-weight:700; }
+  a.primary { background:#252a33; color:#fff; border-color:#252a33; }
+  .stores { display:flex; gap:10px; margin-top:6px; }
+  .stores a { flex:1; margin:0; }
+  .hint { font-size:13px; color:#9aa0aa; margin-top:20px; }
+  .foot { margin-top:22px; font-size:12px; color:#c0c4cc; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>HAIRPIN</h1>
+    <div class="tag">친구가 회원님을 초대했어요 🎁</div>
+    <p>아래 코드로 가입하면 <b>나와 친구 모두 500P</b>를 받아요.</p>
+    <div class="code" id="code">헤어핀</div>
+    <a class="btn primary" id="openApp" href="#" style="display:none">앱에서 열기</a>
+    <div class="stores">
+      <a class="btn" id="ios" href="https://apps.apple.com/app/id6777420253">App&nbsp;Store</a>
+      <a class="btn" id="play" href="https://play.google.com/store/apps/details?id=com.hairbook.app">Google&nbsp;Play</a>
+    </div>
+    <p class="hint">앱 설치 후 <b>홈 → 친구 초대 → 추천 코드 입력</b>에 위 코드를 넣어주세요.</p>
+    <div class="foot">© 2026 HAIRPIN</div>
+  </div>
+<script>
+  // 초대코드 파싱(영문 대문자·숫자 6자리만 허용 — textContent라 XSS 없음, 표시 정돈용)
+  var code = (new URLSearchParams(location.search).get('code') || '')
+    .toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+  if (code) {
+    document.getElementById('code').textContent = code;
+    // 설치돼 있으면 앱의 /referral 화면으로(코드 자동 입력). 스킴=hairbook.
+    var appUrl = 'hairbook://referral?code=' + encodeURIComponent(code);
+    var openApp = document.getElementById('openApp');
+    openApp.setAttribute('href', appUrl);
+    openApp.style.display = 'block';
+  }
+</script>
+</body>
+</html>
